@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Federico Fontao Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: hoja de dibujo tecnico. Cabecera fija, portada con cuadro de rotulo, grilla de proyectos que abre una ficha con pieza interactiva. */
+:root{
+  --bg:#EBEEF0; --surface:#F7F9FA; --ink:#111A21; --muted:#52606A; --line:#C9D1D6;
+  --accent:#3544E8; --accent-ink:#FFFFFF; --accent-soft:#DDE1FC; --grid:#DCE2E6; --shadow:rgba(17,26,33,.14);
+  --f-display:'Familjen Grotesk','Helvetica Neue',Arial,sans-serif;
+  --f-body:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1317; --surface:#151D23; --ink:#E7EDF0; --muted:#97A5AE; --line:#27323A;
+    --accent:#8E9BFF; --accent-ink:#0D1317; --accent-soft:#1F2547; --grid:#1B252C; --shadow:rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1317; --surface:#151D23; --ink:#E7EDF0; --muted:#97A5AE; --line:#27323A;
+  --accent:#8E9BFF; --accent-ink:#0D1317; --accent-soft:#1F2547; --grid:#1B252C; --shadow:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mono,.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.eyebrow{margin-bottom:10px}
+
+/* cabecera */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;padding-block:12px;min-width:0}
+.brand{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.01em;text-decoration:none;color:var(--ink);white-space:nowrap}
+.top nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;min-width:0}
+.top nav a{font-size:14px;color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:6px;white-space:nowrap}
+.top nav a:hover{color:var(--ink);background:var(--surface)}
+.theme{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 11px;font-size:13px;cursor:pointer;white-space:nowrap}
+.theme:hover{border-color:var(--accent)}
+
+/* portada */
+.hero{padding-block:56px 40px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:start}
+.hero h1{font-size:clamp(44px,8vw,92px)}
+.hero h1 span{color:var(--accent)}
+.lead{font-size:clamp(17px,2.2vw,20px);max-width:52ch;margin-top:22px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.chip{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);background:var(--surface);padding:5px 10px;border-radius:4px;color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.btn{display:inline-block;text-decoration:none;font-weight:600;font-size:15px;padding:12px 18px;border-radius:6px;border:1px solid var(--ink);cursor:pointer;background:transparent;color:var(--ink)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:hover{transform:translateY(-1px)}
+.sheet{background:var(--surface);border:1px solid var(--ink);padding:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
+.sheet svg{display:block;width:100%;height:auto}
+.block{background:var(--surface);border-top:1px solid var(--ink);display:grid;grid-template-columns:auto 1fr;font-size:13px}
+.block dt,.block dd{margin:0;padding:7px 12px;border-bottom:1px solid var(--line)}
+.block dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--line)}
+.block dt:nth-last-of-type(1),.block dd:last-of-type{border-bottom:0}
+.note{margin-top:32px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--surface);font-size:14px;color:var(--muted);max-width:70ch}
+
+/* secciones */
+section.sec{padding-block:64px;border-top:1px solid var(--line)}
+.sec h2{font-size:clamp(30px,5vw,48px);margin-bottom:12px}
+.sec .intro{color:var(--muted);max-width:60ch;margin-bottom:28px}
+
+/* proyectos */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.filters button{border:1px solid var(--line);background:var(--surface);padding:8px 14px;border-radius:999px;font-size:14px;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0;cursor:pointer;overflow:hidden;min-width:0;transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px var(--shadow);border-color:var(--accent)}
+.card .th{background:var(--surface);border-bottom:1px solid var(--line);aspect-ratio:4/3;max-width:100%}
+.card .th svg{width:100%;height:100%;display:block}
+.card .tx{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
+.card h3{font-size:26px}
+.card p{font-size:14px;color:var(--muted)}
+.card .go{margin-top:6px;font-weight:600;font-size:14px;color:var(--accent)}
+
+/* ficha de proyecto */
+dialog{width:min(1040px,calc(100% - 24px));max-height:calc(100dvh - 24px);padding:0;border:1px solid var(--ink);border-radius:12px;background:var(--bg);color:var(--ink);overflow:auto}
+dialog::backdrop{background:rgba(5,10,14,.6)}
+.dh{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:20px 24px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:2}
+.dh h2{font-size:clamp(30px,5vw,46px)}
+.x{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 14px;cursor:pointer;font-size:14px;white-space:nowrap}
+.x:hover{border-color:var(--accent)}
+.db{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px;padding:24px}
+.viz{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+.viz .art{padding:8px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+.viz svg{width:100%;height:auto;display:block}
+.ctl{padding:14px 16px;border-top:1px solid var(--line);display:grid;gap:14px}
+.ctl label{display:grid;gap:6px;font-size:14px;font-weight:500}
+.ctl .row{display:flex;justify-content:space-between;gap:12px}
+.ctl output{font-family:var(--f-mono);font-size:13px;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,.seg button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:8px 10px;color:var(--ink)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.read{border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+.read div{padding:10px 16px;border-right:1px solid var(--line)}
+.read div:last-child{border-right:0}
+.read b{display:block;font-family:var(--f-mono);font-weight:500;font-size:16px}
+.read span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.info{min-width:0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tabs button{border:0;background:transparent;padding:10px 14px;cursor:pointer;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.pane h3{font-size:22px;margin:18px 0 6px}
+.pane h3:first-child{margin-top:0}
+.pane p{color:var(--muted);font-size:15px}
+.pane p+p{margin-top:10px}
+.spec{width:100%;border-collapse:collapse;font-size:14px}
+.spec th,.spec td{text-align:left;padding:8px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.spec th{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400;width:42%;padding-right:12px}
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.stepper button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 11px;font-size:13px;cursor:pointer}
+.stepper button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.legend{display:grid;gap:6px;padding:12px 16px;border-top:1px solid var(--line)}
+.legend button{display:flex;justify-content:space-between;gap:12px;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:8px 10px;font-size:14px;cursor:pointer}
+.legend button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.legend small{color:var(--muted)}
+
+/* dibujo svg */
+.ln{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dim{fill:none;stroke:var(--muted);stroke-width:1.2}
+.tx{fill:var(--muted);font:500 11px var(--f-mono)}
+.fillbg{fill:var(--surface)}
+
+/* proceso */
+.proc{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:32px}
+.proc .list{display:grid;gap:8px;align-content:start}
+.proc .list button{text-align:left;display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;cursor:pointer;font-weight:500}
+.proc .list button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.proc .list span{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.proc .detail{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px;min-width:0}
+.proc .detail h3{font-size:30px;margin-bottom:10px}
+.proc .detail ul{margin:14px 0 0;padding-left:18px;color:var(--muted);display:grid;gap:6px}
+
+/* bocetos */
+.sketches{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.sk{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;min-width:0}
+.sk svg{display:block;width:100%;height:auto;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:20px 20px}
+.sk figcaption{padding:10px 14px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+.sk figcaption b{display:block;color:var(--ink);font-weight:600}
+
+/* competencias */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.skills h3{font-size:22px;margin-bottom:10px}
+.skills ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.skills li{font-size:13px;border:1px solid var(--line);background:var(--surface);padding:5px 10px;border-radius:4px}
+
+/* contacto */
+.contact{display:grid;gap:10px;max-width:640px}
+.cl{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 16px;min-width:0}
+.cl span.v{font-family:var(--f-mono);font-size:14px;overflow-wrap:anywhere;user-select:all}
+.cl button{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;white-space:nowrap}
+footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--muted);font-size:13px}
+
+@media (max-width:820px){
+  .hero .wrap,.db,.proc{grid-template-columns:minmax(0,1fr)}
+  .top nav{display:none}
+  .hero{padding-block:36px 24px}
+  .dh,.db{padding-inline:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+<style>[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">Federico Fontao</a>
+    <nav aria-label="Secciones">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#bocetos">Bocetos</a>
+      <a href="#competencias">Competencias</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="theme" id="themeBtn" type="button" aria-label="Cambiar entre tema claro y oscuro">Tema</button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Diseño industrial · Buenos Aires</p>
+      <h1>Federico<br><span>Fontao</span></h1>
+      <p class="lead">Diseño objetos cotidianos que se entienden al primer uso: de la observación de cómo la gente los usa al prototipo que se puede tocar. Este portfolio reúne cuatro proyectos de mobiliario, iluminación, hogar y packaging.</p>
+      <div class="chips">
+        <span class="chip">Diseño centrado en el usuario</span>
+        <span class="chip">Modelado y prototipado</span>
+        <span class="chip">Materiales y fabricación</span>
+        <span class="chip">Ergonomía</span>
+      </div>
+      <div class="cta">
+        <a class="btn pri" href="#proyectos">Ver proyectos</a>
+        <a class="btn" href="#contacto">Contacto</a>
+      </div>
+      <p class="note">Portfolio conceptual. Los proyectos, medidas y resultados son ficticios y forman parte de una proyección académica de carrera.</p>
+    </div>
+    <div>
+      <div class="sheet" id="heroDraw" aria-label="Plano del banco Tramo con cotas"></div>
+      <dl class="block">
+        <dt>Autor</dt><dd>F. Fontao</dd>
+        <dt>Disciplina</dt><dd>Diseño Industrial</dd>
+        <dt>Universidad</dt><dd>Universidad de Palermo</dd>
+        <dt>Egreso</dt><dd>2031 (proyectado)</dd>
+        <dt>Escala</dt><dd>1:5, cotas en mm</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="proyectos">
+  <div class="wrap">
+    <p class="eyebrow">Selección de trabajos</p>
+    <h2>Proyectos</h2>
+    <p class="intro">Cada proyecto tiene una pieza que se puede mover: cambiar el material, plegar, regular la luz, vaciar el reservorio o desarmar un envase. Abrilo para ver el problema, el proceso y la ficha técnica.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="sec" id="proceso">
+  <div class="wrap">
+    <p class="eyebrow">Metodología</p>
+    <h2>Cómo trabajo</h2>
+    <p class="intro">Cinco etapas que se repiten en cada proyecto. Elegí una para ver qué hago y qué entrego.</p>
+    <div class="proc">
+      <div class="list" id="procList" role="tablist" aria-label="Etapas del proceso"></div>
+      <div class="detail" id="procDetail" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="bocetos">
+  <div class="wrap">
+    <p class="eyebrow">Cuaderno de taller</p>
+    <h2>Bocetos y estudios</h2>
+    <p class="intro">Antes de modelar en 3D, el pensamiento ocurre en papel. Algunas páginas del cuaderno de los cuatro proyectos.</p>
+    <div class="sketches" id="sketches"></div>
+  </div>
+</section>
+
+<section class="sec" id="competencias">
+  <div class="wrap">
+    <p class="eyebrow">Qué sé hacer</p>
+    <h2>Competencias</h2>
+    <p class="intro">Agrupadas por el momento del proyecto en el que se usan.</p>
+    <div class="skills" id="skills"></div>
+  </div>
+</section>
+
+<section class="sec" id="contacto">
+  <div class="wrap">
+    <p class="eyebrow">Hablemos</p>
+    <h2>Contacto</h2>
+    <p class="intro">Disponible para pasantías y proyectos de diseño de producto en Buenos Aires.</p>
+    <div class="contact" id="contact"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Federico Fontao, Diseñador Industrial · Portfolio conceptual con proyectos ficticios, 2031 (proyectado)</div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dtitle"></dialog>
+<script>
+/* ---------- utilidades ---------- */
+var R=function(v){return Math.round(v*10)/10};
+var fmt=function(v,d){return Number(v).toFixed(d==null?0:d).replace('.',',')};
+var rad=function(deg){return deg*Math.PI/180};
+var $=function(sel,root){return (root||document).querySelector(sel)};
+var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')};
+
+/* ---------- dibujos (cada uno devuelve un svg segun el estado) ---------- */
+var MAT={
+  fresno:{name:'Fresno natural',m1:'#DDBE90',m2:'#B8905C'},
+  nogal:{name:'Nogal oscuro',m1:'#8A5D3F',m2:'#5E3D28'},
+  negro:{name:'Laca negra',m1:'#2E343A',m2:'#171B1F'}
+};
+function drawTramo(s){
+  var M=MAT[s.mat], psi=rad(4+20*s.open/100), L=256, floor=330;
+  var ay=floor-L*Math.cos(psi), sy=ay-19;
+  var lx=205-L*Math.sin(psi), rx=275+L*Math.sin(psi);
+  var h=Math.round((floor-sy)/0.5625), spread=Math.round((rx-lx)/0.5625);
+  var out='<svg viewBox="0 0 480 362" role="img" aria-label="Banco Tramo en vista frontal con cotas">';
+  out+='<path class="dim" d="M20 338H460"/>';
+  [[205,lx],[275,rx]].forEach(function(p){
+    out+='<line x1="'+R(p[0])+'" y1="'+R(ay)+'" x2="'+R(p[1])+'" y2="'+floor+'" stroke="var(--ink)" stroke-width="19" stroke-linecap="round"/>';
+    out+='<line x1="'+R(p[0])+'" y1="'+R(ay)+'" x2="'+R(p[1])+'" y2="'+floor+'" stroke="'+M.m2+'" stroke-width="14" stroke-linecap="round"/>';
+    out+='<circle cx="'+R(p[1])+'" cy="'+floor+'" r="8" fill="#23282D" stroke="var(--ink)" stroke-width="2"/>';
+  });
+  var t=0.58, bx1=205+(lx-205)*t, bx2=275+(rx-275)*t, by=ay+(floor-ay)*t;
+  out+='<line x1="'+R(bx1)+'" y1="'+R(by)+'" x2="'+R(bx2)+'" y2="'+R(by)+'" stroke="var(--ink)" stroke-width="8" stroke-linecap="round"/>';
+  out+='<line x1="'+R(bx1)+'" y1="'+R(by)+'" x2="'+R(bx2)+'" y2="'+R(by)+'" stroke="#8D989F" stroke-width="4" stroke-linecap="round"/>';
+  out+='<rect x="150" y="'+R(sy)+'" width="180" height="18" rx="9" fill="'+M.m1+'" stroke="var(--ink)" stroke-width="2"/>';
+  out+='<path d="M170 '+R(sy+6)+'H310M176 '+R(sy+12)+'H300" stroke="'+M.m2+'" stroke-width="1" opacity=".5" fill="none"/>';
+  out+='<rect x="192" y="'+R(sy+16)+'" width="96" height="9" rx="2" fill="#8D989F" stroke="var(--ink)" stroke-width="1.5"/>';
+  var dx=424;
+  out+='<path class="dim" d="M'+dx+' '+R(sy)+'V'+floor+'M'+(dx-6)+' '+R(sy)+'H'+(dx+6)+'M'+(dx-6)+' '+floor+'H'+(dx+6)+'"/>';
+  out+='<text class="tx" x="'+(dx-4)+'" y="'+R((sy+floor)/2)+'" text-anchor="end">'+h+' mm</text>';
+  out+='<path class="dim" d="M150 54H330M150 48V60M330 48V60"/><text class="tx" x="240" y="44" text-anchor="middle">Ø 320 mm</text>';
+  out+='<path class="dim" d="M'+R(lx)+' 354H'+R(rx)+'M'+R(lx)+' 349V359M'+R(rx)+' 349V359"/><text class="tx" x="240" y="348" text-anchor="middle">base '+spread+' mm</text>';
+  return out+'</svg>';
+}
+
+var TEMP={
+  calida:{name:'Cálida',k:2700,c:'#FFC46B'},
+  neutra:{name:'Neutra',k:4000,c:'#FFE6B8'},
+  fria:{name:'Fría',k:5000,c:'#CFE6FF'}
+};
+function drawHilo(s){
+  var P={x:120,y:292}, L1=120, L2=110, desk=306;
+  var a1=rad(s.a1), a2=rad(s.a2);
+  var E={x:P.x+L1*Math.sin(a1), y:P.y-L1*Math.cos(a1)};
+  var H={x:E.x+L2*Math.sin(a2), y:E.y-L2*Math.cos(a2)};
+  var h=rad(s.h), d={x:-Math.sin(h), y:Math.cos(h)};
+  var len=d.y>0.15?(desk-H.y)/d.y:220; len=Math.max(70,Math.min(380,len));
+  var T=TEMP[s.temp];
+  var out='<svg viewBox="0 0 480 340" role="img" aria-label="Lámpara Hilo con brazo articulado">';
+  if(s.on){
+    out+='<g transform="translate('+R(H.x)+' '+R(H.y)+') rotate('+s.h+')">';
+    var w=30+(len-34)*0.45;
+    out+='<polygon points="-30,34 30,34 '+R(w)+','+R(len)+' '+R(-w)+','+R(len)+'" fill="'+T.c+'" opacity=".26"/>';
+    var w2=18+(len-34)*0.22;
+    out+='<polygon points="-18,34 18,34 '+R(w2)+','+R(len)+' '+R(-w2)+','+R(len)+'" fill="'+T.c+'" opacity=".30"/></g>';
+  }
+  out+='<rect x="0" y="'+desk+'" width="480" height="34" class="fillbg"/><path class="ln" d="M0 '+desk+'H480" style="stroke-width:1.5"/>';
+  if(s.on&&d.y>0.15){
+    var tt=(desk-H.y)/d.y, px=H.x+tt*d.x;
+    out+='<ellipse cx="'+R(px)+'" cy="'+desk+'" rx="'+R(34+tt*0.45)+'" ry="5" fill="'+T.c+'" opacity=".55"/>';
+  }
+  out+='<rect x="68" y="292" width="104" height="14" rx="7" fill="#2B3238" stroke="var(--ink)" stroke-width="2"/>';
+  [[P,E],[E,H]].forEach(function(seg){
+    out+='<line x1="'+R(seg[0].x)+'" y1="'+R(seg[0].y)+'" x2="'+R(seg[1].x)+'" y2="'+R(seg[1].y)+'" stroke="var(--ink)" stroke-width="13" stroke-linecap="round"/>';
+    out+='<line x1="'+R(seg[0].x)+'" y1="'+R(seg[0].y)+'" x2="'+R(seg[1].x)+'" y2="'+R(seg[1].y)+'" stroke="#B4BEC5" stroke-width="8" stroke-linecap="round"/>';
+  });
+  [P,E,H].forEach(function(j){out+='<circle cx="'+R(j.x)+'" cy="'+R(j.y)+'" r="9" fill="#2B3238" stroke="var(--ink)" stroke-width="2"/>'});
+  out+='<g transform="translate('+R(H.x)+' '+R(H.y)+') rotate('+s.h+')"><path d="M-20 4L20 4L36 36L-36 36Z" fill="#2B3238" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>';
+  if(s.on)out+='<ellipse cx="0" cy="36" rx="25" ry="4" fill="'+T.c+'"/>';
+  out+='</g>';
+  var cm=Math.round((desk-H.y)*0.35);
+  out+='<path class="dim" d="M'+R(H.x+60)+' '+R(H.y)+'V'+desk+'M'+R(H.x+54)+' '+R(H.y)+'H'+R(H.x+66)+'"/><text class="tx" x="'+R(H.x+68)+'" y="'+R((H.y+desk)/2)+'">'+cm+' cm</text>';
+  return out+'</svg>';
+}
+
+function drawBrote(s){
+  var w=s.water/100, m=0.25+0.75*w;
+  var mix=function(a,b,t){return Math.round(a+(b-a)*t)};
+  var soil='rgb('+mix(122,63,m)+','+mix(94,46,m)+','+mix(69,34,m)+')';
+  var leaf='rgb('+mix(154,78,m)+','+mix(154,154,m)+','+mix(78,85,m)+')';
+  var droop=Math.round((1-m)*42), C=POT[s.pot];
+  var out='<svg viewBox="0 0 480 340" role="img" aria-label="Corte de la maceta Brote con reservorio y plántula">';
+  var leaves=[[110,1],[110,-1],[148,1],[148,-1]];
+  out+='<line x1="240" y1="172" x2="240" y2="64" stroke="#4D8A3C" stroke-width="6" stroke-linecap="round"/>';
+  leaves.forEach(function(l,i){
+    var sc=i<2?1:0.8, sgn=l[1];
+    out+='<g transform="translate(240 '+l[0]+') scale('+(sgn*sc)+' '+sc+') rotate('+(-22+droop)+')"><path d="M0 0C40-30 80-20 98 6C72 24 30 22 0 0Z" fill="'+leaf+'" stroke="var(--ink)" stroke-width="2"/><path d="M6 2C40-6 70-4 90 5" stroke="var(--ink)" stroke-width="1" fill="none" opacity=".5"/></g>';
+  });
+  out+='<ellipse cx="240" cy="62" rx="12" ry="20" fill="'+leaf+'" stroke="var(--ink)" stroke-width="2" transform="rotate('+(droop>20?10:0)+' 240 80)"/>';
+  out+='<path d="M150 160H330L314 308Q313 316 305 316H175Q167 316 166 308Z" fill="'+C.m1+'" stroke="var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>';
+  out+='<rect x="142" y="152" width="196" height="14" rx="7" fill="'+C.m1+'" stroke="var(--ink)" stroke-width="2.5"/>';
+  out+='<path d="M156 172H324L318 232H162Z" fill="'+soil+'"/>';
+  out+='<rect x="160" y="236" width="160" height="8" rx="2" fill="'+C.m2+'" stroke="var(--ink)" stroke-width="2"/>';
+  [226,250].forEach(function(x){out+='<rect x="'+x+'" y="214" width="8" height="48" rx="3" fill="#E1D3B4" stroke="var(--ink)" stroke-width="1.5"/>'});
+  out+='<rect x="172" y="250" width="136" height="56" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.5"/>';
+  var wh=56*w;
+  out+='<rect x="172" y="'+R(250+56-wh)+'" width="136" height="'+R(wh)+'" fill="#4FA3D1" opacity=".85"/>';
+  out+='<path class="dim" d="M334 250H350M334 278H350M334 306H350"/><text class="tx" x="354" y="254">1,2 L</text><text class="tx" x="354" y="282">0,6 L</text><text class="tx" x="354" y="310">0 L</text>';
+  out+='<text class="tx" x="118" y="228" text-anchor="end">sustrato</text><text class="tx" x="118" y="284" text-anchor="end">reservorio</text><text class="tx" x="124" y="248" text-anchor="end">mechas</text>';
+  return out+'</svg>';
+}
+var POT={
+  hueso:{name:'Blanco hueso',m1:'#E9E4D8',m2:'#CFC8B6'},
+  arcilla:{name:'Arcilla',m1:'#C77C58',m2:'#9E5C3D'},
+  grafito:{name:'Grafito',m1:'#434A50',m2:'#2B3035'}
+};
+
+var LAYERS=[
+  {n:'Tapa',d:'Cúpula con nervaduras que reparte los golpes hacia los bordes.'},
+  {n:'Bandeja',d:'Cavidades moldeadas que separan y fijan cada pieza.'},
+  {n:'Soporte',d:'Colchón ondulado que amortigua las caídas.'},
+  {n:'Base',d:'Caja de pared doble con asas de agarre.'}
+];
+function drawCapa(s){
+  var g=s.explode*0.42, sel=s.sel;
+  var fills=['#DCCFAE','#CDBF99','#BFAE88','#B1A07A'];
+  var out='<svg viewBox="0 0 480 340" role="img" aria-label="Vista explosionada del envase Capa">';
+  var op=function(i){return sel<0||sel===i?1:0.4};
+  var st=function(i){return sel===i?'var(--accent)':'var(--ink)'};
+  var sw=function(i){return sel===i?3.5:2};
+  var ty=170-g*3, by=208-g*2, sy=234-g, ky=250;
+  if(g>2)out+='<path class="dim" d="M240 '+R(ty-12)+'V'+(ky+70)+'" stroke-dasharray="4 5"/>';
+  out+='<g opacity="'+op(3)+'"><rect x="130" y="'+ky+'" width="220" height="60" rx="8" fill="'+fills[3]+'" stroke="'+st(3)+'" stroke-width="'+sw(3)+'"/><path d="M160 '+(ky+10)+'V'+(ky+52)+'M200 '+(ky+10)+'V'+(ky+52)+'M240 '+(ky+10)+'V'+(ky+52)+'M280 '+(ky+10)+'V'+(ky+52)+'M320 '+(ky+10)+'V'+(ky+52)+'" stroke="var(--ink)" stroke-width="1" opacity=".3"/></g>';
+  var zz='M140 '+R(sy+14);for(var i=0;i<10;i++){zz+='L'+(140+i*20+10)+' '+R(sy)+'L'+(140+i*20+20)+' '+R(sy+14)}
+  out+='<g opacity="'+op(2)+'"><path d="'+zz+'" fill="'+fills[2]+'" stroke="'+st(2)+'" stroke-width="'+sw(2)+'" stroke-linejoin="round"/></g>';
+  var bp='M135 '+R(by+22)+'V'+R(by+6)+'Q135 '+R(by)+' 141 '+R(by);
+  for(var j=0;j<5;j++){var x0=145+j*38;bp+='H'+x0+'Q'+(x0+19)+' '+R(by+20)+' '+(x0+38)+' '+R(by)}
+  bp+='H339Q345 '+R(by)+' 345 '+R(by+6)+'V'+R(by+22)+'Z';
+  out+='<g opacity="'+op(1)+'"><path d="'+bp+'" fill="'+fills[1]+'" stroke="'+st(1)+'" stroke-width="'+sw(1)+'" stroke-linejoin="round"/></g>';
+  out+='<g opacity="'+op(0)+'"><path d="M125 '+R(ty+30)+'Q125 '+R(ty)+' 240 '+R(ty)+'Q355 '+R(ty)+' 355 '+R(ty+30)+'Z" fill="'+fills[0]+'" stroke="'+st(0)+'" stroke-width="'+sw(0)+'" stroke-linejoin="round"/><path d="M175 '+R(ty+28)+'Q185 '+R(ty+6)+' 240 '+R(ty+5)+'M305 '+R(ty+28)+'Q295 '+R(ty+6)+' 240 '+R(ty+5)+'" stroke="var(--ink)" stroke-width="1" opacity=".3" fill="none"/></g>';
+  if(g>6){
+    var ys=[ty+15,by+11,sy+7,ky+30];
+    LAYERS.forEach(function(l,k){out+='<path class="dim" d="M360 '+R(ys[k])+'H388"/><text class="tx" x="394" y="'+R(ys[k]+4)+'">'+l.n+'</text>'});
+  }
+  return out+'</svg>';
+}
+/* ---------- datos ---------- */
+function geoTramo(s){
+  var psi=rad(4+20*s.open/100), L=256, ay=330-L*Math.cos(psi), sy=ay-19;
+  var lx=205-L*Math.sin(psi), rx=275+L*Math.sin(psi);
+  return {h:Math.round((330-sy)/0.5625), spread:Math.round((rx-lx)/0.5625)};
+}
+function geoHilo(s){
+  var a1=rad(s.a1), a2=rad(s.a2);
+  var Ey=292-120*Math.cos(a1), Hy=Ey-110*Math.cos(a2);
+  return {cm:Math.round((306-Hy)*0.35)};
+}
+var PROJECTS=[
+  {id:'tramo',name:'Tramo',cat:'Mobiliario',year:'2030',
+   line:'Banco de fresno con patas de apertura regulable: más abiertas para ganar estabilidad, más cerradas para guardarlo en menos espacio.',
+   state:{mat:'fresno',open:100}, draw:drawTramo,
+   ctl:[
+     {k:'mat',type:'seg',label:'Material',opts:[['fresno','Fresno'],['nogal','Nogal'],['negro','Laca negra']]},
+     {k:'open',type:'range',label:'Apertura de patas',min:0,max:100,out:function(v){return v+' %'}}
+   ],
+   read:function(s){var g=geoTramo(s);return [['Altura de asiento',g.h+' mm'],['Base de apoyo',g.spread+' mm'],['Base / asiento',fmt(g.spread/320,2)+' ×']]},
+   problem:'En departamentos chicos el banco extra se guarda mal y se usa poco. Los modelos plegables suelen ser inestables o parecen provisorios.',
+   solution:'Un banco de fresno de asiento redondeado con cuatro patas que giran sobre un único herraje de acero. Abiertas dan una base ancha y estable; cerradas, el banco entra en un rincón.',
+   hint:'Mové la apertura y mirá cómo cambian la altura del asiento y la base de apoyo, que se calculan con la geometría del dibujo.',
+   steps:[
+     ['Investigación','Relevé cómo se usa un banco extra en seis hogares de ambientes reducidos. Se usa como asiento, apoyo y escalón. Medí alturas de asiento entre 430 y 470 mm.'],
+     ['Concepto','Comparé tres sistemas en bocetos: cruce en X, patas rotantes y patas desmontables. Ganó el de patas rotantes por rapidez de uso y menor cantidad de piezas.'],
+     ['Prototipo','Maqueta 1:2 en cartón y varillas, y un primer prototipo 1:1 en MDF cortado a CNC para probar el herraje.'],
+     ['Resultado','Banco de fresno de 2,4 kg con aceite natural. Se abre y se cierra con una mano.']
+   ],
+   specs:[['Categoría','Mobiliario'],['Altura de asiento','450 mm (patas abiertas)'],['Diámetro de asiento','320 mm'],['Peso','2,4 kg'],['Materiales','Fresno macizo, herraje de acero'],['Fabricación','Corte CNC, torneado, lijado y aceite natural']]},
+
+  {id:'hilo',name:'Hilo',cat:'Iluminación',year:'2030',
+   line:'Lámpara de escritorio con brazo de dos tramos, cabezal orientable y tres temperaturas de luz.',
+   state:{a1:25,a2:80,h:10,on:true,temp:'calida'}, draw:drawHilo,
+   ctl:[
+     {k:'on',type:'seg',label:'Luz',opts:[[true,'Encendida'],[false,'Apagada']]},
+     {k:'temp',type:'seg',label:'Temperatura de color',opts:[['calida','2700 K'],['neutra','4000 K'],['fria','5000 K']]},
+     {k:'a1',type:'range',label:'Brazo inferior',min:-10,max:60,out:function(v){return v+'°'}},
+     {k:'a2',type:'range',label:'Brazo superior',min:40,max:130,out:function(v){return v+'°'}},
+     {k:'h',type:'range',label:'Inclinación del cabezal',min:-50,max:50,out:function(v){return v+'°'}}
+   ],
+   read:function(s){var g=geoHilo(s);return [['Altura del cabezal',g.cm+' cm'],['Temperatura',TEMP[s.temp].k+' K'],['Estado',s.on?'Encendida · 6 W':'Apagada']]},
+   problem:'Las lámparas de escritorio o iluminan mal o se mueven solas. Hay que reubicarlas varias veces por sesión y rara vez vuelven a la misma posición.',
+   solution:'Un brazo de aluminio con articulaciones por fricción que sostienen la posición sin contrapeso, un cabezal orientable y tres temperaturas de luz para trabajar, leer o descansar.',
+   hint:'Probá distintas posiciones del brazo y cambiá la temperatura de color. La mancha de luz sobre el escritorio sigue al cabezal.',
+   steps:[
+     ['Investigación','Observé a cinco estudiantes durante sesiones de estudio de dos horas y conté cuántas veces movían la lámpara. El promedio fue de cuatro veces por sesión.'],
+     ['Concepto','Estudié la cinemática del brazo en bocetos. Dos tramos y un cabezal cubren las posiciones habituales de lectura y trabajo sin necesidad de contrapeso.'],
+     ['Prototipo','Mecanismo impreso en 3D para ajustar la fricción de cada articulación y un modelo 3D con renders de las posiciones extremas.'],
+     ['Resultado','Lámpara LED de 6 W con tres temperaturas. Las articulaciones sostienen la posición elegida.']
+   ],
+   specs:[['Categoría','Iluminación'],['Potencia','6 W LED'],['Temperatura de color','2700, 4000 y 5000 K'],['Alcance del brazo','Hasta 62 cm'],['Materiales','Aluminio extruido, ABS'],['Peso','1,1 kg']]},
+
+  {id:'brote',name:'Brote',cat:'Hogar',year:'2031',
+   line:'Maceta de cerámica con reservorio que mantiene una planta de interior hasta ocho días sin riego.',
+   state:{water:75,pot:'hueso'}, draw:drawBrote,
+   ctl:[
+     {k:'pot',type:'seg',label:'Acabado',opts:[['hueso','Blanco hueso'],['arcilla','Arcilla'],['grafito','Grafito']]},
+     {k:'water',type:'range',label:'Nivel del reservorio',min:0,max:100,out:function(v){return fmt(v*1.2/100,1)+' L'}}
+   ],
+   read:function(s){var l=s.water*1.2/100;var days=Math.round(l/0.15);var est=s.water>60?'Húmedo':(s.water>25?'Adecuado':'Seco');return [['Reservorio',fmt(l,1)+' L'],['Autonomía estimada',days+' días'],['Sustrato',est]]},
+   problem:'Las plantas de interior se secan durante los viajes o se ahogan por exceso de riego. En ambos casos el problema es la regularidad.',
+   solution:'Un reservorio inferior de 1,2 L entrega agua al sustrato por capilaridad mediante dos mechas de algodón. Un nivel visible evita levantar la planta para saber cuánta agua queda.',
+   hint:'Vaciá el reservorio y mirá cómo se seca el sustrato y se afloja la planta. La autonomía se calcula con un consumo supuesto de 0,15 L por día.',
+   steps:[
+     ['Investigación','Entrevisté a diez personas con plantas de interior. La causa más frecuente de pérdida fue el riego irregular, más que la falta de luz.'],
+     ['Concepto','Comparé tres sistemas de autorriego: gotero, esponja y capilaridad. La mecha fue la más simple de fabricar y de limpiar.'],
+     ['Prototipo','Maqueta del corte en yeso y pruebas de capilaridad con distintos materiales de mecha durante dos semanas.'],
+     ['Resultado','Maceta de cerámica esmaltada de 180 mm. Con el reservorio lleno, la autonomía estimada es de ocho días.']
+   ],
+   specs:[['Categoría','Hogar'],['Diámetro','180 mm'],['Reservorio','1,2 L'],['Autonomía estimada','8 días (consumo supuesto 0,15 L/día)'],['Materiales','Cerámica esmaltada, mecha de algodón'],['Fabricación','Colada en molde de yeso, esmaltado y cocción'],['Peso','1,8 kg']]},
+
+  {id:'capa',name:'Capa',cat:'Packaging',year:'2031',legend:true,
+   line:'Envase de pulpa moldeada para huevos y frutas, compuesto por cuatro piezas que protegen la carga.',
+   state:{explode:55,sel:-1}, draw:drawCapa,
+   ctl:[{k:'explode',type:'range',label:'Vista explosionada',min:0,max:100,out:function(v){return v+' %'}}],
+   read:function(s){return [['Piezas','4'],['Separación',fmt(s.explode*0.6)+' mm'],['Material','Pulpa de caña']]},
+   problem:'Los envases de plástico para alimentos frágiles generan residuo y casi nunca se reutilizan.',
+   solution:'Un sistema de cuatro piezas de pulpa de caña de azúcar: tapa, bandeja, soporte y base. Protege la carga, se apila antes del uso para reducir el volumen de transporte y se composta al final de su vida.',
+   hint:'Desplegá las piezas con el control y tocá una para resaltarla y leer qué función cumple.',
+   steps:[
+     ['Investigación','Relevé envases de huevos y frutas en comercios de barrio y registré la rotura durante el traslado a casa.'],
+     ['Concepto','Bocetos de encastre entre piezas y estudio de nervaduras para repartir los impactos hacia los bordes.'],
+     ['Prototipo','Moldes de yeso para pulpa y pruebas de caída desde un metro de altura con peso simulado.'],
+     ['Resultado','Envase para seis piezas, compostable, con cuatro componentes que se apilan en poco espacio.']
+   ],
+   specs:[['Categoría','Packaging'],['Capacidad','6 huevos'],['Piezas','4'],['Material','Pulpa de caña de azúcar'],['Fabricación','Moldeado por vacío y secado en horno'],['Peso','140 g'],['Fin de vida','Compostable']]}
+];
+
+var PROC=[
+  {n:'Investigar',s:'Entender cómo se usa hoy',d:'Antes de dibujar observo a las personas usando el objeto y los productos que ya existen. Busco el momento en que algo molesta o se improvisa.',o:['Observaciones y entrevistas cortas','Relevamiento de productos existentes','Medidas del usuario y del entorno']},
+  {n:'Definir',s:'Escribir el problema',d:'Convierto lo observado en un brief claro: para quién es, qué debe resolver y qué límites tiene en tamaño, costo y fabricación.',o:['Brief de una página','Lista de requisitos y restricciones','Criterios para elegir entre ideas']},
+  {n:'Idear',s:'Probar muchas formas en papel',d:'Dibujo variantes rápidas y las comparo con los criterios del brief. Descarto con argumentos y desarrollo la que mejor equilibra uso, estética y fabricación.',o:['Bocetos a mano alzada','Matriz de decisión','Estudios de material y color']},
+  {n:'Prototipar',s:'Hacerlo tangible',d:'Paso del boceto a modelos: maquetas en cartón, modelo 3D y piezas impresas. Cada prototipo responde una pregunta concreta sobre el diseño.',o:['Maquetas a escala','Modelo 3D y renders','Prototipos funcionales']},
+  {n:'Validar',s:'Probar con personas',d:'Pongo el prototipo en manos de usuarios, anoto qué entienden sin explicación y ajusto el diseño. Reviso también que se pueda fabricar a un costo razonable.',o:['Pruebas de uso','Ajustes de diseño para fabricación','Planos y ficha técnica']}
+];
+
+var SKILLS=[
+  ['Investigación y concepto',['Diseño centrado en el usuario','Observación y entrevistas','Análisis de productos','Bocetado','Desarrollo de conceptos']],
+  ['Desarrollo técnico',['Ergonomía','Selección de materiales','Procesos de fabricación','Dibujo técnico','Planos y fichas técnicas']],
+  ['Herramientas digitales',['Modelado 3D','Renderizado','Diseño gráfico y edición','Paquete de oficina','Google Workspace']],
+  ['Prototipado',['Maquetas y modelos','Impresión 3D','Corte láser','Trabajo en madera y cartón']],
+  ['Comunicación y gestión',['Presentación de proyectos','Comunicación visual','Trabajo en equipo','Gestión del tiempo','Redacción de informes']]
+];
+
+var SKETCHES=[
+  ['Tramo','Tres aperturas de patas comparadas','<g class="ln"><path d="M20 40h40M25 40l-8 70M55 40l8 70"/><path d="M80 40h40M90 40l-2 70M110 40l2 70"/><path d="M140 40h40M150 40l-14 70M170 40l14 70"/></g><path class="dim" d="M10 118H190" stroke-dasharray="4 4"/><text class="tx" x="34" y="132">A</text><text class="tx" x="96" y="132">B</text><text class="tx" x="156" y="132">C</text>'],
+  ['Hilo','Recorrido del brazo en dos tramos','<g class="ln"><path d="M40 110L80 50L130 60"/><circle cx="40" cy="110" r="4"/><circle cx="80" cy="50" r="4"/><path d="M125 55l22 26h-40z"/></g><path class="dim" d="M40 110A60 60 0 0 1 100 50" stroke-dasharray="3 3"/><path class="dim" d="M80 50A40 40 0 0 1 118 62" stroke-dasharray="3 3"/><text class="tx" x="150" y="120">alcance</text>'],
+  ['Brote','Corte de la maceta con mechas','<g class="ln"><path d="M50 50h100l-10 70h-80z"/><path d="M58 88h84"/><path d="M100 50V16M100 30c-15-10-28-6-30 4M100 30c15-10 28-6 30 4"/></g><path class="dim" d="M92 62v32M108 62v32" stroke-dasharray="3 3"/><text class="tx" x="156" y="108">capilaridad</text>'],
+  ['Capa','Encastre de tapa, bandeja y soporte','<g class="ln"><rect x="40" y="96" width="120" height="22" rx="4"/><rect x="48" y="68" width="104" height="14" rx="3"/><path d="M52 46q48-34 96 0z"/></g><path class="dim" d="M100 28V10M96 16l4-6 4 6"/><text class="tx" x="14" y="132">tapa · bandeja · base</text>'],
+  ['Ergonomía','Alcance sentado, percentil medio','<g class="ln"><circle cx="70" cy="30" r="9"/><path d="M70 39v40l30 4v35M70 79H52M70 50l36 16"/></g><path class="dim" d="M70 50A46 46 0 0 1 114 80" stroke-dasharray="3 3"/><text class="tx" x="120" y="62">alcance</text>'],
+  ['Materiales','Muestras de acabado','<g class="ln"><rect x="20" y="34" width="46" height="46"/><rect x="77" y="34" width="46" height="46"/><rect x="134" y="34" width="46" height="46"/></g><path class="dim" d="M20 52l18-18M20 70l36-36M30 80l36-36M48 80l18-18M77 48c10-10 20 10 30 0s10-10 16 0M77 62c10-10 20 10 30 0s10-10 16 0M141 44h32M141 54h32M141 64h32M141 74h32"/><text class="tx" x="20" y="100">madera</text><text class="tx" x="77" y="100">pulpa</text><text class="tx" x="134" y="100">cerámica</text>']
+];
+/* ---------- interfaz ---------- */
+var dlg=$('#dlg'), lastTrigger=null;
+
+function renderGrid(filter){
+  var grid=$('#grid');
+  grid.innerHTML=PROJECTS.map(function(p){
+    var hide=filter!=='Todos'&&p.cat!==filter;
+    return '<button type="button" class="card" data-id="'+p.id+'"'+(hide?' hidden':'')+'>'+
+      '<div class="th">'+p.draw(p.state)+'</div>'+
+      '<div class="tx"><span class="mono">'+p.cat+' · '+p.year+'</span><h3>'+p.name+'</h3><p>'+esc(p.line)+'</p><span class="go">Ver proyecto</span></div></button>';
+  }).join('');
+}
+function initFilters(){
+  var cats=['Todos'].concat(PROJECTS.map(function(p){return p.cat}));
+  var box=$('#filters');
+  box.innerHTML=cats.map(function(c,i){return '<button type="button" aria-pressed="'+(i===0)+'">'+c+'</button>'}).join('');
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    box.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+    renderGrid(b.textContent);
+  });
+  renderGrid('Todos');
+  $('#grid').addEventListener('click',function(e){
+    var c=e.target.closest('.card'); if(!c)return;
+    lastTrigger=c; openProject(c.dataset.id);
+  });
+}
+
+function vizHTML(p){
+  var h='<div class="viz"><div class="art" id="art"></div><div class="read" id="read"></div><div class="ctl" id="ctl">';
+  p.ctl.forEach(function(c){
+    if(c.type==='range'){
+      h+='<label for="c_'+c.k+'"><span class="row"><span>'+c.label+'</span><output id="o_'+c.k+'"></output></span><input type="range" id="c_'+c.k+'" min="'+c.min+'" max="'+c.max+'" value="'+p.state[c.k]+'"></label>';
+    }else{
+      h+='<div><div class="mono" style="margin-bottom:6px">'+c.label+'</div><div class="seg" role="group" aria-label="'+c.label+'" data-k="'+c.k+'">'+
+        c.opts.map(function(o,i){return '<button type="button" data-i="'+i+'" aria-pressed="'+(p.state[c.k]===o[0])+'">'+o[1]+'</button>'}).join('')+'</div></div>';
+    }
+  });
+  h+='</div>';
+  if(p.legend){
+    h+='<div class="legend" id="legend" role="group" aria-label="Piezas del envase">'+LAYERS.map(function(l,i){return '<button type="button" data-i="'+i+'" aria-pressed="false"><span>'+l.n+'</span><small>'+esc(l.d)+'</small></button>'}).join('')+'</div>';
+  }
+  return h+'</div>';
+}
+function wireViz(p,root){
+  var s=Object.assign({},p.state);
+  var art=$('#art',root), read=$('#read',root);
+  function paint(){
+    art.innerHTML=p.draw(s);
+    read.innerHTML=p.read(s).map(function(r){return '<div><span>'+r[0]+'</span><b>'+r[1]+'</b></div>'}).join('');
+  }
+  p.ctl.forEach(function(c){
+    if(c.type==='range'){
+      var inp=$('#c_'+c.k,root), out=$('#o_'+c.k,root);
+      out.textContent=c.out(s[c.k]);
+      inp.addEventListener('input',function(){s[c.k]=Number(inp.value);out.textContent=c.out(s[c.k]);paint()});
+    }
+  });
+  root.querySelectorAll('.seg').forEach(function(g){
+    var k=g.dataset.k, c=p.ctl.filter(function(x){return x.k===k})[0];
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b)return;
+      s[k]=c.opts[Number(b.dataset.i)][0];
+      g.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+      paint();
+    });
+  });
+  var lg=$('#legend',root);
+  if(lg)lg.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    var i=Number(b.dataset.i); s.sel=(s.sel===i)?-1:i;
+    lg.querySelectorAll('button').forEach(function(x,j){x.setAttribute('aria-pressed',String(s.sel===j))});
+    paint();
+  });
+  paint();
+}
+
+function infoHTML(p){
+  var h='<div class="info"><div class="tabs" role="tablist" id="tabs">'+
+    ['Resumen','Proceso','Ficha técnica'].map(function(t,i){return '<button type="button" role="tab" data-t="'+i+'" aria-selected="'+(i===0)+'">'+t+'</button>'}).join('')+'</div>';
+  h+='<div class="pane" data-p="0"><h3>Problema</h3><p>'+esc(p.problem)+'</p><h3>Solución</h3><p>'+esc(p.solution)+'</p><h3>Probalo</h3><p>'+esc(p.hint)+'</p></div>';
+  h+='<div class="pane" data-p="1" hidden><div class="stepper" id="stepper">'+p.steps.map(function(st,i){return '<button type="button" data-i="'+i+'" aria-pressed="'+(i===0)+'">'+st[0]+'</button>'}).join('')+'</div><div id="stepText"></div></div>';
+  h+='<div class="pane" data-p="2" hidden><table class="spec"><tbody>'+p.specs.map(function(r){return '<tr><th scope="row">'+r[0]+'</th><td>'+esc(r[1])+'</td></tr>'}).join('')+'</tbody></table></div></div>';
+  return h;
+}
+function wireInfo(p,root){
+  var tabs=$('#tabs',root);
+  tabs.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    var t=b.dataset.t;
+    tabs.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected',String(x===b))});
+    root.querySelectorAll('.pane').forEach(function(pn){pn.hidden=pn.dataset.p!==t});
+  });
+  var st=$('#stepper',root), tx=$('#stepText',root);
+  function showStep(i){tx.innerHTML='<h3>'+p.steps[i][0]+'</h3><p>'+esc(p.steps[i][1])+'</p>'}
+  st.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    st.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+    showStep(Number(b.dataset.i));
+  });
+  showStep(0);
+}
+function openProject(id){
+  var p=PROJECTS.filter(function(x){return x.id===id})[0]; if(!p)return;
+  dlg.innerHTML='<div class="dh"><div><p class="eyebrow" style="margin:0 0 6px">'+p.cat+' · '+p.year+'</p><h2 id="dtitle">'+p.name+'</h2></div><button type="button" class="x" id="dclose">Cerrar</button></div><div class="db">'+vizHTML(p)+infoHTML(p)+'</div>';
+  wireViz(p,dlg); wireInfo(p,dlg);
+  $('#dclose').addEventListener('click',function(){dlg.close()});
+  if(dlg.showModal){dlg.showModal()}else{dlg.setAttribute('open','')}
+  document.body.style.overflow='hidden';
+  dlg.scrollTop=0;
+}
+dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close()});
+dlg.addEventListener('close',function(){
+  document.body.style.overflow='';
+  if(lastTrigger)lastTrigger.focus();
+});
+
+function initProcess(){
+  var list=$('#procList'), det=$('#procDetail');
+  list.innerHTML=PROC.map(function(p,i){return '<button type="button" role="tab" data-i="'+i+'" aria-selected="'+(i===0)+'"><span>Etapa '+(i+1)+' de '+PROC.length+'</span>'+p.n+'</button>'}).join('');
+  function show(i){var p=PROC[i];det.innerHTML='<p class="eyebrow">'+esc(p.s)+'</p><h3>'+p.n+'</h3><p>'+esc(p.d)+'</p><ul>'+p.o.map(function(o){return '<li>'+esc(o)+'</li>'}).join('')+'</ul>'}
+  list.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    list.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected',String(x===b))});
+    show(Number(b.dataset.i));
+  });
+  show(0);
+}
+function initSketches(){
+  $('#sketches').innerHTML=SKETCHES.map(function(k){
+    return '<figure class="sk"><svg viewBox="0 0 200 140" role="img" aria-label="'+esc(k[1])+'">'+k[2]+'</svg><figcaption><b>'+k[0]+'</b>'+esc(k[1])+'</figcaption></figure>';
+  }).join('');
+}
+function initSkills(){
+  $('#skills').innerHTML=SKILLS.map(function(g){
+    return '<div><h3>'+g[0]+'</h3><ul>'+g[1].map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul></div>';
+  }).join('');
+}
+function initContact(){
+  var rows=[['Email','Federicofontao@gmail.com',true],['LinkedIn','linkedin.com/in/FedericoFontao',true],['Ubicación','Buenos Aires, Argentina',false]];
+  var box=$('#contact');
+  box.innerHTML=rows.map(function(r){
+    return '<div class="cl"><div><div class="mono">'+r[0]+'</div><span class="v">'+esc(r[1])+'</span></div>'+(r[2]?'<button type="button" data-v="'+esc(r[1])+'">Copiar</button>':'')+'</div>';
+  }).join('');
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-v]'); if(!b)return;
+    var span=b.parentElement.querySelector('.v');
+    copyTextFrom(b,span);
+  });
+}
+function copyTextFrom(btn,span){
+  var done=function(msg){var old=btn.textContent;btn.textContent=msg;setTimeout(function(){btn.textContent=old},1600)};
+  var sel=function(){try{var r=document.createRange();r.selectNodeContents(span);var g=getSelection();g.removeAllRanges();g.addRange(r)}catch(e){}done('Seleccionado')};
+  try{navigator.clipboard.writeText(btn.dataset.v).then(function(){done('Copiado')},sel)}catch(e){sel()}
+}
+
+/* tema */
+function isDark(){var a=document.documentElement.getAttribute('data-theme');if(a)return a==='dark';return matchMedia('(prefers-color-scheme: dark)').matches}
+function themeLabel(){$('#themeBtn').textContent=isDark()?'Tema claro':'Tema oscuro'}
+function initTheme(){
+  try{var t=localStorage.getItem('ff-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
+  themeLabel();
+  $('#themeBtn').addEventListener('click',function(){
+    var next=isDark()?'light':'dark';
+    document.documentElement.setAttribute('data-theme',next);
+    try{localStorage.setItem('ff-theme',next)}catch(e){}
+    themeLabel();
+  });
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',themeLabel)}catch(e){}
+}
+
+/* inicio */
+$('#heroDraw').innerHTML=drawTramo({mat:'fresno',open:100});
+initFilters(); initProcess(); initSketches(); initSkills(); initContact(); initTheme();
+</script>
+</body>
+</html>
